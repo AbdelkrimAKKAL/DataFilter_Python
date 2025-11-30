@@ -1,0 +1,89 @@
+# SUIVI DE PROJET : DATA FILTER
+
+## I. STRUCTURE ET FONDATIONS (Indispensable)
+
+[ ] Définir la structure de données interne : Liste de dictionnaires (Clés = champs, Valeurs = données)[cite: 3].
+[ ] Assurer la gestion des types de champs suivants (pour les statistiques) :
+    [ ] Entiers [cite: 5]
+    [ ] Réels [cite: 6]
+    [ ] Chaînes de caractères [cite: 7]
+    [ ] Booléens [cite: 8]
+    [ ] Listes de valeurs [cite: 9]
+
+---
+
+## II. CHARGEMENT ET SAUVEGARDE (Indispensable)
+
+[ ] Implémenter la fonction de chargement (lecture) au format **CSV**[cite: 21].
+[ ] Implémenter la fonction de sauvegarde (écriture) au format **CSV**[cite: 21].
+[ ] Implémenter la fonction de chargement (lecture) au format **JSON**[cite: 21].
+[ ] Implémenter la fonction de sauvegarde (écriture) au format **JSON**[cite: 21].
+
+### Améliorations (Bonus)
+
+[ ] Implémenter la gestion du format **XML**[cite: 22].
+[ ] Implémenter la gestion du format **YAML**[cite: 22].
+
+---
+
+## III. STATISTIQUES ET ANALYSE (Indispensable)
+
+[ ] Fonction pour afficher la **structure** (noms des champs)[cite: 24].
+[ ] Calculer les statistiques pour les champs représentant un **nombre** (entier ou réel) :
+    [ ] Minimum (min) [cite: 26]
+    [ ] Maximum (max) [cite: 26]
+    [ ] Valeur moyenne [cite: 26]
+[ ] Calculer les statistiques pour les champs représentant un **booléen** :
+    [ ] Pourcentage de Vrai [cite: 27]
+    [ ] Pourcentage de Faux [cite: 27]
+[ ] Calculer les statistiques pour les champs représentant une **liste** (basées sur la taille de la liste) :
+    [ ] Min de la taille de liste [cite: 27]
+    [ ] Max de la taille de liste [cite: 27]
+    [ ] Moyenne de la taille de liste [cite: 27]
+
+---
+
+## IV. FILTRAGE (Indispensable)
+
+[ ] Implémenter le filtrage par **comparaison avec une valeur**[cite: 30].
+[ ] Pour les chaînes de caractères : Comparaison en utilisant l'ordre **lexicographique** (<, >, =)[cite: 31].
+[ ] Pour les listes : Comparaison utilisant le **nombre d'éléments** (la taille)[cite: 32].
+
+### Améliorations (Bonus)
+
+[ ] Filtrage avancé pour les chaînes de caractères :
+    [ ] Contient [cite: 34]
+    [ ] Commence/finit par [cite: 34]
+[ ] Filtrage avancé pour les listes (règles plus complexes) :
+    [ ] Tous les éléments [cite: 35]
+    [ ] Min/Max/Moyenne des éléments [cite: 35]
+[ ] Comparaison entre deux champs (Ex: prénom avant nom, note math > note anglais)[cite: 36, 37, 38].
+[ ] Comparaison par rapport aux statistiques globales (Ex: plus vieux que la moyenne)[cite: 39, 40].
+[ ] Filtrage sur une combinaison de champs (Ex: prix x quantité > seuil)[cite: 42].
+
+---
+
+## V. TRI (Indispensable)
+
+[ ] Implémenter le tri par les **valeurs d'un champ** (champ simple)[cite: 44].
+
+### Améliorations (Bonus)
+
+[ ] Tri via une **combinaison de champs** (Ex: valeur globale pour les items)[cite: 45].
+[ ] Tri sur **plusieurs critères successifs** (en cas d'égalité, Ex: nom, puis prénom)[cite: 45].
+
+---
+
+## VI. INTERFACE ET QUALITÉ (Indispensable)
+
+[ ] Créer l'interface utilisateur (Ligne de commande, Menu, ou Interface graphique)[cite: 47, 48, 49, 50].
+[ ] Assurer la qualité et la facilité d'utilisation de l'interface[cite: 51].
+[ ] Assurer que le programme est un **script exécutable en console** avec l'interpréteur python (pas Jupyter)[cite: 58].
+[ ] Assurer la qualité du code et le bon découpage du programme (pas de bugs)[cite: 57].
+
+### Améliorations (Bonus)
+
+[ ] Gestion d'un historique des filtrages avec fonction **Undo**[cite: 54].
+[ ] Gestion d'un historique des filtrages avec fonction **Redo**[cite: 54].
+[ ] Possibilité d'**ajouter** de nouveaux champs[cite: 55].
+[ ] Possibilité de **retirer** des champs[cite: 55].
