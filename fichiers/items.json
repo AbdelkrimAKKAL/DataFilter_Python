@@ -1,0 +1,7 @@
+[
+    {"name": "Laptop", "category": "Electronics", "price": 899.99, "quantity": 5},
+    {"name": "Phone", "category": "Electronics", "price": 499.50, "quantity": 10},
+    {"name": "Desk", "category": "Furniture", "price": 129.90, "quantity": 3},
+    {"name": "Chair", "category": "Furniture", "price": 89.00, "quantity": 8},
+    {"name": "Headphones", "category": "Electronics", "price": 59.99, "quantity": 15}
+]

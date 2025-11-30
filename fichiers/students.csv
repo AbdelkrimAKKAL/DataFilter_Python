@@ -1,0 +1,6 @@
+firstname,lastname,age,apprentice,grades
+Alice,Martin,21,True,"[12, 15, 17]"
+Bob,Durand,19,False,"[10, 11, 13]"
+Charlie,Leroy,23,True,"[14, 16, 18, 19]"
+Diane,Bernard,20,False,"[9, 12]"
+Evan,Rousseau,22,True,"[15, 15, 16]"
