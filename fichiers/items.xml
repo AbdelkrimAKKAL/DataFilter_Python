@@ -1,0 +1,32 @@
+<data>
+    <item>
+        <name>Laptop</name>
+        <category>Electronics</category>
+        <price>899.99</price>
+        <quantity>5</quantity>
+    </item>
+    <item>
+        <name>Phone</name>
+        <category>Electronics</category>
+        <price>499.50</price>
+        <quantity>10</quantity>
+    </item>
+    <item>
+        <name>Desk</name>
+        <category>Furniture</category>
+        <price>129.90</price>
+        <quantity>3</quantity>
+    </item>
+    <item>
+        <name>Chair</name>
+        <category>Furniture</category>
+        <price>89.00</price>
+        <quantity>8</quantity>
+    </item>
+    <item>
+        <name>Headphones</name>
+        <category>Electronics</category>
+        <price>59.99</price>
+        <quantity>15</quantity>
+    </item>
+</data>

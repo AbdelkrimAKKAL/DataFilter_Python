@@ -1,0 +1,29 @@
+- firstname: Alice
+  lastname: Martin
+  age: 21
+  apprentice: true
+  grades: [12, 15, 17]
+
+- firstname: Bob
+  lastname: Durand
+  age: 19
+  apprentice: false
+  grades: [10, 11, 13]
+
+- firstname: Charlie
+  lastname: Leroy
+  age: 23
+  apprentice: true
+  grades: [14, 16, 18, 19]
+
+- firstname: Diane
+  lastname: Bernard
+  age: 20
+  apprentice: false
+  grades: [9, 12]
+
+- firstname: Evan
+  lastname: Rousseau
+  age: 22
+  apprentice: true
+  grades: [15, 15, 16]
