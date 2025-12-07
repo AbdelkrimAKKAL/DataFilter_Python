@@ -1,0 +1,40 @@
+- age: 22
+  apprentice: true
+  firstname: Evan
+  grades:
+  - 15
+  - 15
+  - 16
+  lastname: Rousseau
+- age: 20
+  apprentice: false
+  firstname: Diane
+  grades:
+  - 9
+  - 12
+  lastname: Bernard
+- age: 23
+  apprentice: true
+  firstname: Charlie
+  grades:
+  - 14
+  - 16
+  - 18
+  - 19
+  lastname: Leroy
+- age: 19
+  apprentice: false
+  firstname: Bob
+  grades:
+  - 10
+  - 11
+  - 13
+  lastname: Durand
+- age: 21
+  apprentice: true
+  firstname: Alice
+  grades:
+  - 12
+  - 15
+  - 17
+  lastname: Martin
