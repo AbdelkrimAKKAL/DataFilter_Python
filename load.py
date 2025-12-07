@@ -2,13 +2,7 @@ import json
 import csv
 import ast
 import xml.etree.ElementTree as ET
-
-try:
-    import yaml
-
-    YAML_AVAILABLE = True
-except ImportError:
-    YAML_AVAILABLE = False
+import yaml
 
 
 def convert_value(value):

@@ -3,12 +3,11 @@ from stats import calcule_stats, get_field_stats
 from filters import (filter_data, filter_combined, filter_by_expression,
                      filter_list_advanced, filter_by_stats, filter_multi_conditions)
 from sort import sort_data, sort_data_multi, sort_by_expression, sort_by_list_stats
-from utils import ( add_field, remove_field, rename_field,
+from utils import (add_field, remove_field, rename_field,
                    transform_field, show_data_table, get_user_value)
 
 # Variables globales
 data = None
-#history = DataHistory()
 
 
 def menu_principal():
@@ -23,14 +22,12 @@ def menu_principal():
     print("  5. Trier les données")
     print("  6. Gérer les champs (ajouter/supprimer)")
     print("  7. Sauvegarder les données")
-    print("  8. Historique (Undo/Redo)")
-    print("  9. Quitter")
+    print("  8. Quitter")
     print("=" * 70)
 
 
 def menu_filtrage():
-    """Menu de filtrage."""
-    global data, history
+    global data
 
     if data is None or not data:
         print("✗ Aucune donnée chargée.")
@@ -63,7 +60,6 @@ def menu_filtrage():
         operator = input("Opérateur : ").strip()
         value = get_user_value("Valeur : ")
 
-        history.push(data)
         data = filter_data(data, field, operator, value)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
@@ -76,9 +72,8 @@ def menu_filtrage():
         operator = input("Opérateur : ").strip()
         value = get_user_value("Valeur : ", "float")
 
-        history.push(data)
         data = filter_list_advanced(data, field, operator, value)
-        print(f"✓ Filtrage appliqué : {len(data)} entrées restantes")
+        print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
     elif choix == "3":
         # Comparaison entre deux champs
@@ -89,7 +84,6 @@ def menu_filtrage():
         print("\nOpérateurs : ==, !=, <, >, <=, >=")
         operator = input("Opérateur : ").strip()
 
-        history.push(data)
         data = filter_combined(data, field1, field2, operator)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
@@ -104,7 +98,6 @@ def menu_filtrage():
         print("\nOpérateurs : <, >, <=, >=")
         operator = input("Opérateur : ").strip()
 
-        history.push(data)
         data = filter_by_stats(data, field, operator, stat_type)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
@@ -115,11 +108,9 @@ def menu_filtrage():
         expression = input("Expression Python : ").strip()
 
         try:
-            # Créer une fonction lambda depuis l'expression
             func = eval(f"lambda item: {expression}")
-            history.push(data)
             data = filter_by_expression(data, func)
-            print(f"✓ Filtrage appliqué : {len(data)} entrées restantes")
+            print(f"Filtrage appliqué : {len(data)} entrées restantes")
         except Exception as e:
             print(f"Erreur dans l'expression : {e}")
 
@@ -141,17 +132,16 @@ def menu_filtrage():
             conditions.append((field, operator, value))
 
         if conditions:
-            history.push(data)
             data = filter_multi_conditions(data, conditions)
             print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
 
 def menu_tri():
 
-    global data, history
+    global data
 
     if data is None or not data:
-        print(" Aucune donnée chargée.")
+        print("Aucune donnée chargée.")
         return
 
     print("\n" + "=" * 70)
@@ -178,9 +168,8 @@ def menu_tri():
         order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
         reverse = (order == "d")
 
-        history.push(data)
         data = sort_data(data, field, reverse)
-        print(f"✓ Données triées par '{field}'")
+        print(f"Données triées par '{field}'")
 
     elif choix == "2":
         # Tri multi-critères
@@ -193,9 +182,8 @@ def menu_tri():
             order = input(f"  '{field}' - croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
             reverse_list.append(order == "d")
 
-        history.push(data)
         data = sort_data_multi(data, fields, reverse_list)
-        print(f"✓ Données triées par {len(fields)} critères")
+        print(f"Données triées par {len(fields)} critères")
 
     elif choix == "3":
         # Tri sur stats de liste
@@ -208,9 +196,8 @@ def menu_tri():
         order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
         reverse = (order == "d")
 
-        history.push(data)
         data = sort_by_list_stats(data, field, stat, reverse)
-        print(f"✓ Données triées par '{stat}' de '{field}'")
+        print(f"Données triées par '{stat}' de '{field}'")
 
     elif choix == "4":
         # Tri par expression
@@ -222,19 +209,18 @@ def menu_tri():
             order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
             reverse = (order == "d")
 
-            history.push(data)
             data = sort_by_expression(data, func, reverse)
-            print(f"✓ Tri appliqué")
+            print(f"Tri appliqué")
         except Exception as e:
-            print(f"✗ Erreur dans l'expression : {e}")
+            print(f"Erreur dans l'expression : {e}")
 
 
 def menu_gestion_champs():
 
-    global data, history
+    global data
 
     if data is None or not data:
-        print("✗ Aucune donnée chargée.")
+        print("Aucune donnée chargée.")
         return
 
     print("\n" + "=" * 70)
@@ -254,9 +240,8 @@ def menu_gestion_champs():
         field_name = input("Nom du nouveau champ : ").strip()
         default_value = get_user_value("Valeur par défaut : ")
 
-        history.push(data)
         data = add_field(data, field_name, default_value)
-        print(f"✓ Champ '{field_name}' ajouté")
+        print(f"Champ '{field_name}' ajouté")
 
     elif choix == "2":
         # Supprimer un champ
@@ -265,9 +250,8 @@ def menu_gestion_champs():
 
         confirm = input(f"Confirmer la suppression de '{field_name}' ? (o/n) : ").strip().lower()
         if confirm == "o":
-            history.push(data)
             data = remove_field(data, field_name)
-            print(f"✓ Champ '{field_name}' supprimé")
+            print(f"Champ '{field_name}' supprimé")
 
     elif choix == "3":
         # Renommer un champ
@@ -275,9 +259,8 @@ def menu_gestion_champs():
         old_name = input("Ancien nom : ").strip()
         new_name = input("Nouveau nom : ").strip()
 
-        history.push(data)
         data = rename_field(data, old_name, new_name)
-        print(f"✓ Champ renommé : '{old_name}' -> '{new_name}'")
+        print(f"Champ renommé : '{old_name}' -> '{new_name}'")
 
     elif choix == "4":
         # Transformer un champ
@@ -289,61 +272,18 @@ def menu_gestion_champs():
 
         try:
             func = eval(f"lambda x: {expression}")
-            history.push(data)
             data = transform_field(data, field_name, func)
-            print(f"✓ Transformation appliquée")
+            print(f"Transformation appliquée")
         except Exception as e:
             print(f"✗ Erreur : {e}")
 
 
-def menu_historique():
-    """Menu de gestion de l'historique."""
-    global data, history
-
-    print("\n" + "=" * 70)
-    print("HISTORIQUE")
-    print("=" * 70)
-    print(f"  Position actuelle : {history.current_index + 1}/{len(history.history)}")
-    print(f"  Undo disponible : {'Oui' if history.can_undo() else 'Non'}")
-    print(f"  Redo disponible : {'Oui' if history.can_redo() else 'Non'}")
-    print("=" * 70)
-    print("  1. Undo (annuler)")
-    print("  2. Redo (refaire)")
-    print("  3. Effacer l'historique")
-    print("  0. Retour")
-    print("=" * 70)
-
-    choix = input("Votre choix : ").strip()
-
-    if choix == "1":
-        if history.can_undo():
-            data = history.undo()
-            print(f"✓ Undo effectué ({len(data)} entrées)")
-        else:
-            print("✗ Aucune action à annuler")
-
-    elif choix == "2":
-        if history.can_redo():
-            data = history.redo()
-            print(f"✓ Redo effectué ({len(data)} entrées)")
-        else:
-            print("✗ Aucune action à refaire")
-
-    elif choix == "3":
-        confirm = input("Effacer tout l'historique ? (o/n) : ").strip().lower()
-        if confirm == "o":
-            history.clear()
-            if data:
-                history.push(data)
-            print("✓ Historique effacé")
-
-
-#PROGRAMME PRINCIPAL
 def main():
-    global data, history
+
+    global data
 
     print("\n" + "=" * 70)
-    print(" " * 15 + "🔍 DATA FILTER - PROJET PYTHON 🔍")
+    print(" " * 15 + "DATA FILTER")
     print("=" * 70)
     print("  Programme de chargement, filtrage, tri et analyse de données")
     print("  Formats supportés : CSV, JSON, XML, YAML")
@@ -359,17 +299,15 @@ def main():
 
             try:
                 data = load_file(filepath)
-                history.clear()
-                history.push(data)
-                print(f"✓ Fichier chargé : {len(data)} entrées")
+                print(f"Fichier chargé : {len(data)} entrées")
                 print(f"  Champs : {list(data[0].keys())}")
             except Exception as e:
-                print(f"✗ Erreur lors du chargement : {e}")
+                print(f"Erreur lors du chargement : {e}")
 
         elif choix == "2":
             # Afficher les données
             if data is None:
-                print("✗ Aucune donnée chargée.")
+                print("Aucune donnée chargée.")
             else:
                 limit_str = input("Nombre d'entrées à afficher (vide = toutes) : ").strip()
                 limit = int(limit_str) if limit_str else None
@@ -378,7 +316,7 @@ def main():
         elif choix == "3":
             # Statistiques
             if data is None:
-                print("✗ Aucune donnée chargée.")
+                print("Aucune donnée chargée.")
             else:
                 calcule_stats(data)
 
@@ -397,30 +335,26 @@ def main():
         elif choix == "7":
             # Sauvegarder
             if data is None:
-                print("✗ Aucune donnée à sauvegarder.")
+                print("Aucune donnée à sauvegarder.")
             else:
                 filepath = input("\nChemin de sauvegarde (.json, .csv, .xml, .yaml) : ").strip()
 
                 try:
                     save_file(filepath, data)
-                    print(f" Données sauvegardées : {filepath}")
+                    print(f"Données sauvegardées : {filepath}")
                 except Exception as e:
-                    print(f" Erreur lors de la sauvegarde : {e}")
+                    print(f"Erreur lors de la sauvegarde : {e}")
 
         elif choix == "8":
-            # Historique
-            menu_historique()
-
-        elif choix == "9":
             # Quitter
             print("\n" + "=" * 70)
             print(" " * 20 + "Merci d'avoir utilisé DATA FILTER")
-            print(" " * 25 + "Au revoir ! 👋")
+            print(" " * 25 + "Au revoir !")
             print("=" * 70 + "\n")
             break
 
         else:
-            print("✗ Choix invalide. Veuillez entrer un nombre entre 1 et 9.")
+            print("Choix invalide. Veuillez entrer un nombre entre 1 et 8.")
 
 
 if __name__ == "__main__":
