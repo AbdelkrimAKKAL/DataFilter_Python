@@ -30,7 +30,7 @@ def menu_filtrage():
     global data
 
     if data is None or not data:
-        print("✗ Aucune donnée chargée.")
+        print(" Aucune donnée chargée.")
         return
 
     print("\n" + "=" * 70)
@@ -53,7 +53,7 @@ def menu_filtrage():
         field = input("Champ : ").strip()
 
         if field not in data[0]:
-            print(f"✗ Le champ '{field}' n'existe pas.")
+            print(f"Le champ '{field}' n'existe pas.")
             return
 
         print("\nOpérateurs : ==, !=, <, >, <=, >=, contains, startswith, endswith")
@@ -275,7 +275,7 @@ def menu_gestion_champs():
             data = transform_field(data, field_name, func)
             print(f"Transformation appliquée")
         except Exception as e:
-            print(f"✗ Erreur : {e}")
+            print(f" Erreur : {e}")
 
 
 def main():

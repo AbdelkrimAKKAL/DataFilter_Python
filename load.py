@@ -109,8 +109,7 @@ def save_xml(filepath, data, root_name="data", item_name="item"):
 # YAML
 def load_yaml(filepath):
 
-    if not YAML_AVAILABLE:
-        raise ImportError("PyYAML n'est pas installé.")
+
 
     with open(filepath, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -118,8 +117,7 @@ def load_yaml(filepath):
 
 def save_yaml(filepath, data):
 
-    if not YAML_AVAILABLE:
-        raise ImportError("PyYAML n'est pas installé.")
+
 
     with open(filepath, "w", encoding="utf-8") as f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True)

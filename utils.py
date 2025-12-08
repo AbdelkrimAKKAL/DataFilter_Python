@@ -1,5 +1,3 @@
-import copy
-
 
 
 def add_field(data, field_name, default_value=None):
