@@ -1,8 +1,8 @@
 from load import load_file, save_file
 from stats import calcule_stats, get_field_stats
-from filters import (filter_data, filter_combined, filter_by_expression,
-                     filter_list_advanced, filter_by_stats, filter_multi_conditions)
-from sort import sort_data, sort_data_multi, sort_by_expression, sort_by_list_stats
+from filters import (filter_data, filter_combined,
+                      filter_by_stats, filter_multi_conditions)
+from sort import sort_data, sort_data_multi
 from utils import (add_field, remove_field, rename_field,
                    transform_field, show_data_table, get_user_value)
 
@@ -30,25 +30,23 @@ def menu_filtrage():
     global data
 
     if data is None or not data:
-        print(" Aucune donnée chargée.")
+        print(" Aucune donnee chargée.")
         return
 
     print("\n" + "=" * 70)
     print("MENU FILTRAGE")
     print("=" * 70)
     print("  1. Filtrage simple (champ, opérateur, valeur)")
-    print("  2. Filtrage avancé sur listes (all, any, min, max, mean)")
-    print("  3. Comparaison entre deux champs")
-    print("  4. Filtrage par rapport aux stats (moyenne, médiane, etc.)")
-    print("  5. Filtrage par expression personnalisée")
-    print("  6. Filtrage multi-conditions (ET logique)")
+    print("  2. Comparaison entre deux champs")
+    print("  3. Filtrage par rapport aux stats (moyenne, médiane, etc.)")
+    print("  4. Filtrage multi-conditions (ET logique)")
     print("  0. Retour")
     print("=" * 70)
 
     choix = input("Votre choix : ").strip()
 
     if choix == "1":
-        # Filtrage simple
+        # Filtrage simple ici
         print("\nChamps disponibles :", list(data[0].keys()))
         field = input("Champ : ").strip()
 
@@ -63,19 +61,9 @@ def menu_filtrage():
         data = filter_data(data, field, operator, value)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
+
+
     elif choix == "2":
-        # Filtrage avancé sur listes
-        print("\nChamps disponibles :", list(data[0].keys()))
-        field = input("Champ (doit être une liste) : ").strip()
-
-        print("\nOpérateurs : all_gt, all_lt, any_gt, any_lt, min_gt, max_lt, mean_gt, mean_lt")
-        operator = input("Opérateur : ").strip()
-        value = get_user_value("Valeur : ", "float")
-
-        data = filter_list_advanced(data, field, operator, value)
-        print(f"Filtrage appliqué : {len(data)} entrées restantes")
-
-    elif choix == "3":
         # Comparaison entre deux champs
         print("\nChamps disponibles :", list(data[0].keys()))
         field1 = input("Premier champ : ").strip()
@@ -87,7 +75,7 @@ def menu_filtrage():
         data = filter_combined(data, field1, field2, operator)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
-    elif choix == "4":
+    elif choix == "3":
         # Filtrage par stats
         print("\nChamps disponibles :", list(data[0].keys()))
         field = input("Champ (numérique) : ").strip()
@@ -101,20 +89,9 @@ def menu_filtrage():
         data = filter_by_stats(data, field, operator, stat_type)
         print(f"Filtrage appliqué : {len(data)} entrées restantes")
 
-    elif choix == "5":
-        # Expression personnalisée
-        print("\nExemple : price * quantity > 1000")
-        print("Variables disponibles : les noms des champs de vos données")
-        expression = input("Expression Python : ").strip()
 
-        try:
-            func = eval(f"lambda item: {expression}")
-            data = filter_by_expression(data, func)
-            print(f"Filtrage appliqué : {len(data)} entrées restantes")
-        except Exception as e:
-            print(f"Erreur dans l'expression : {e}")
 
-    elif choix == "6":
+    elif choix == "4":
         # Multi-conditions
         conditions = []
         print("\nEntrez les conditions (vide pour terminer)")
@@ -137,7 +114,6 @@ def menu_filtrage():
 
 
 def menu_tri():
-
     global data
 
     if data is None or not data:
@@ -149,8 +125,6 @@ def menu_tri():
     print("=" * 70)
     print("  1. Tri simple (un champ)")
     print("  2. Tri multi-critères (plusieurs champs)")
-    print("  3. Tri sur statistique de liste (min, max, mean, sum)")
-    print("  4. Tri par expression personnalisée")
     print("  0. Retour")
     print("=" * 70)
 
@@ -160,11 +134,9 @@ def menu_tri():
         # Tri simple
         print("\nChamps disponibles :", list(data[0].keys()))
         field = input("Champ de tri : ").strip()
-
         if field not in data[0]:
             print(f"✗ Le champ '{field}' n'existe pas.")
             return
-
         order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
         reverse = (order == "d")
 
@@ -185,40 +157,11 @@ def menu_tri():
         data = sort_data_multi(data, fields, reverse_list)
         print(f"Données triées par {len(fields)} critères")
 
-    elif choix == "3":
-        # Tri sur stats de liste
-        print("\nChamps disponibles :", list(data[0].keys()))
-        field = input("Champ (doit être une liste) : ").strip()
-
-        print("\nStatistiques : min, max, mean, sum, size")
-        stat = input("Statistique : ").strip()
-
-        order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
-        reverse = (order == "d")
-
-        data = sort_by_list_stats(data, field, stat, reverse)
-        print(f"Données triées par '{stat}' de '{field}'")
-
-    elif choix == "4":
-        # Tri par expression
-        print("\nExemple : item['price'] * item['quantity']")
-        expression = input("Expression Python : ").strip()
-
-        try:
-            func = eval(f"lambda item: {expression}")
-            order = input("Ordre croissant (c) ou décroissant (d) ? [c] : ").strip().lower()
-            reverse = (order == "d")
-
-            data = sort_by_expression(data, func, reverse)
-            print(f"Tri appliqué")
-        except Exception as e:
-            print(f"Erreur dans l'expression : {e}")
 
 
 def menu_gestion_champs():
 
     global data
-
     if data is None or not data:
         print("Aucune donnée chargée.")
         return
@@ -236,10 +179,9 @@ def menu_gestion_champs():
     choix = input("Votre choix : ").strip()
 
     if choix == "1":
-        # Ajouter un champ
+        # Ajouter champ
         field_name = input("Nom du nouveau champ : ").strip()
         default_value = get_user_value("Valeur par défaut : ")
-
         data = add_field(data, field_name, default_value)
         print(f"Champ '{field_name}' ajouté")
 
@@ -254,7 +196,7 @@ def menu_gestion_champs():
             print(f"Champ '{field_name}' supprimé")
 
     elif choix == "3":
-        # Renommer un champ
+        # Renommer
         print("\nChamps disponibles :", list(data[0].keys()))
         old_name = input("Ancien nom : ").strip()
         new_name = input("Nouveau nom : ").strip()
@@ -263,7 +205,7 @@ def menu_gestion_champs():
         print(f"Champ renommé : '{old_name}' -> '{new_name}'")
 
     elif choix == "4":
-        # Transformer un champ
+        # Transformer
         print("\nChamps disponibles :", list(data[0].keys()))
         field_name = input("Champ à transformer : ").strip()
 
@@ -286,7 +228,7 @@ def main():
     print(" " * 15 + "DATA FILTER")
     print("=" * 70)
     print("  Programme de chargement, filtrage, tri et analyse de données")
-    print("  Formats supportés : CSV, JSON, XML, YAML")
+    print("  Formats qui marche : CSV, JSON, XML, YAML")
     print("=" * 70)
 
     while True:
@@ -295,7 +237,7 @@ def main():
 
         if choix == "1":
             # Charger un fichier
-            filepath = input("\nChemin du fichier : ").strip()
+            filepath = input("\nNom du fichier (exemple: students.csv): ").strip()
 
             try:
                 data = load_file(filepath)
@@ -307,14 +249,14 @@ def main():
         elif choix == "2":
             # Afficher les données
             if data is None:
-                print("Aucune donnée chargée.")
+                print("Aucune donnee chargé.")
             else:
                 limit_str = input("Nombre d'entrées à afficher (vide = toutes) : ").strip()
                 limit = int(limit_str) if limit_str else None
                 show_data_table(data, limit)
 
         elif choix == "3":
-            # Statistiques
+            # Statistiques (a changer plus tard)
             if data is None:
                 print("Aucune donnée chargée.")
             else:
@@ -329,16 +271,15 @@ def main():
             menu_tri()
 
         elif choix == "6":
-            # Gestion des champs
+
             menu_gestion_champs()
 
         elif choix == "7":
-            # Sauvegarder
+            # Save
             if data is None:
                 print("Aucune donnée à sauvegarder.")
             else:
                 filepath = input("\nChemin de sauvegarde (.json, .csv, .xml, .yaml) : ").strip()
-
                 try:
                     save_file(filepath, data)
                     print(f"Données sauvegardées : {filepath}")
@@ -346,15 +287,13 @@ def main():
                     print(f"Erreur lors de la sauvegarde : {e}")
 
         elif choix == "8":
-            # Quitter
             print("\n" + "=" * 70)
             print(" " * 20 + "Merci d'avoir utilisé DATA FILTER")
             print(" " * 25 + "Au revoir !")
             print("=" * 70 + "\n")
             break
-
         else:
-            print("Choix invalide. Veuillez entrer un nombre entre 1 et 8.")
+            print("Choix invalide. Veuillez entre un nombre entre 1 et 8.")
 
 
 if __name__ == "__main__":

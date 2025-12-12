@@ -2,27 +2,23 @@ from stats import get_field_stats
 
 
 def filter_data(data, field, operator, value):
-
     if not data:
         return []
 
     result = []
-
     for item in data:
         if field not in item:
             continue
 
         field_value = item[field]
 
-        # Gestion selon le type et l'opérateur
+        # Gestion selon type
         if operator == "==":
             if field_value == value:
                 result.append(item)
-
         elif operator == "!=":
             if field_value != value:
                 result.append(item)
-
         elif operator == "<":
             if isinstance(field_value, list):
                 if len(field_value) < value:
@@ -67,11 +63,10 @@ def filter_data(data, field, operator, value):
                 except:
                     pass
 
-        # Opérateurs pour strings
+        # Operateur pour chaines de caracteres ici
         elif operator == "contains":
             if isinstance(field_value, str) and value in field_value:
                 result.append(item)
-
         elif operator == "startswith":
             if isinstance(field_value, str) and field_value.startswith(value):
                 result.append(item)
@@ -84,7 +79,6 @@ def filter_data(data, field, operator, value):
 
 
 def filter_combined(data, field1, field2, operator):
-
     if not data:
         return []
 
@@ -117,85 +111,12 @@ def filter_combined(data, field1, field2, operator):
     return result
 
 
-def filter_by_expression(data, expression_func):
-
-    result = []
-    for item in data:
-        try:
-            if expression_func(item):
-                result.append(item)
-        except:
-            continue
-    return result
-
-
-def filter_list_advanced(data, field, operator, value):
-
-    if not data:
-        return []
-
-    result = []
-
-    for item in data:
-        if field not in item:
-            continue
-
-        field_value = item[field]
-
-        if not isinstance(field_value, list):
-            continue
-
-        if not field_value:  # Liste vide
-            continue
-
-        try:
-            if operator == "all_gt":
-                if all(elem > value for elem in field_value):
-                    result.append(item)
-
-            elif operator == "all_lt":
-                if all(elem < value for elem in field_value):
-                    result.append(item)
-
-            elif operator == "any_gt":
-                if any(elem > value for elem in field_value):
-                    result.append(item)
-
-            elif operator == "any_lt":
-                if any(elem < value for elem in field_value):
-                    result.append(item)
-
-            elif operator == "min_gt":
-                if min(field_value) > value:
-                    result.append(item)
-
-            elif operator == "max_lt":
-                if max(field_value) < value:
-                    result.append(item)
-
-            elif operator == "mean_gt":
-                mean = sum(field_value) / len(field_value)
-                if mean > value:
-                    result.append(item)
-
-            elif operator == "mean_lt":
-                mean = sum(field_value) / len(field_value)
-                if mean < value:
-                    result.append(item)
-
-        except:
-            continue
-
-    return result
-
-
 def filter_by_stats(data, field, operator, stat_type="mean"):
 
     if not data:
         return []
 
     stats = get_field_stats(data, field)
-
     if not stats or stats["type"] != "numeric":
         print(f"Impossible de calculer les stats pour '{field}'")
         return data

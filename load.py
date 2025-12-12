@@ -12,25 +12,23 @@ def convert_value(value):
     if not isinstance(value, str):
         return value
 
-    # Essayer int
     try:
         return int(value)
     except:
         pass
 
-    # Essayer float
     try:
         return float(value)
     except:
         pass
 
-    # Booléen
+    # Bool
     if value.lower() == "true":
         return True
     if value.lower() == "false":
         return False
 
-    # Listes style "[12, 15, 17]"
+    # Liste
     try:
         if value.startswith("[") and value.endswith("]"):
             return ast.literal_eval(value)
@@ -39,21 +37,20 @@ def convert_value(value):
 
     return value
 
-
-# JSON
+#json
 def load_json(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, "r") as f:
         return json.load(f)
 
 
 def save_json(filepath, data):
-    with open(filepath, "w", encoding="utf-8") as f:
+    with open(filepath, "w") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
-# CSV
+# Csv
 def load_csv(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, "r") as f:
         reader = csv.DictReader(f)
         res = []
         for row in reader:
@@ -65,13 +62,12 @@ def load_csv(filepath):
 def save_csv(filepath, data):
     if not data:
         return
-    with open(filepath, "w", encoding="utf-8", newline="") as f:
+    with open(filepath, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=data[0].keys())
         writer.writeheader()
         writer.writerows(data)
 
 
-# XML
 def load_xml(filepath):
 
     tree = ET.parse(filepath)
@@ -106,24 +102,17 @@ def save_xml(filepath, data, root_name="data", item_name="item"):
     tree.write(filepath, encoding="utf-8", xml_declaration=True)
 
 
-# YAML
 def load_yaml(filepath):
-
-
-
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, "r") as f:
         return yaml.safe_load(f)
 
 
 def save_yaml(filepath, data):
-
-
-
-    with open(filepath, "w", encoding="utf-8") as f:
+    with open(filepath, "w") as f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
 
 
-# Fonction générique
+# functions pour charger les fichers
 def load_file(filename):
     filepath = "fichiers/"+ filename
     if filepath.endswith(".json"):
@@ -135,7 +124,7 @@ def load_file(filename):
     elif filepath.endswith((".yaml", ".yml")):
         return load_yaml(filepath)
     else:
-        raise ValueError(f"Format non supporté : {filepath}")
+        raise ValueError(f"Format non supporte : {filepath}")
 
 
 def save_file(filename, data):

@@ -1,7 +1,5 @@
 
-
 def add_field(data, field_name, default_value=None):
-
     if not data:
         return data
 
@@ -10,6 +8,7 @@ def add_field(data, field_name, default_value=None):
             item[field_name] = default_value(item)
         else:
             item[field_name] = default_value
+
 
     return data
 
@@ -27,16 +26,13 @@ def remove_field(data, field_name):
 
 
 def rename_field(data, old_name, new_name):
-
     if not data:
         return data
-
     for item in data:
         if old_name in item:
             item[new_name] = item.pop(old_name)
 
     return data
-
 
 def transform_field(data, field_name, transform_func):
 
@@ -54,47 +50,28 @@ def transform_field(data, field_name, transform_func):
 
 
 def show_data_table(data, limit=None):
-
     if not data:
-        print("Aucune donnée à afficher.")
+        print("Aucune donnée a afficher.")
         return
 
-    # Limiter si nécessaire
+    # Limiter si on est besoin
     display_data = data[:limit] if limit else data
 
-    # Récupérer les champs
+    # Recup les champs
     fields = list(data[0].keys())
 
-    # Calculer les largeurs de colonnes
-    col_widths = {}
-    for field in fields:
-        col_widths[field] = max(
-            len(str(field)),
-            max(len(str(item.get(field, ""))) for item in display_data)
-        )
-        col_widths[field] = min(col_widths[field], 30)  # Max 30 caractères
+    print("\n" + " | ".join(fields))
+    print("-" * 80)
 
-    # En-tête
-    header = " | ".join(f"{field:<{col_widths[field]}}" for field in fields)
-    separator = "-+-".join("-" * col_widths[field] for field in fields)
-
-    print("\n" + header)
-    print(separator)
-
-    # Données
     for item in display_data:
-        row = " | ".join(
-            f"{str(item.get(field, '')):<{col_widths[field]}}"[:col_widths[field]]
-            for field in fields
-        )
+        row = " | ".join(str(item.get(field, '')) for field in fields)
         print(row)
 
-    # Information sur les données non affichées
+    print("-" * 80)
     if limit and len(data) > limit:
-        print(f"\n... et {len(data) - limit} autres entrées")
+        print(f"... et {len(data) - limit} autres entrées")
 
-    print(f"\nTotal : {len(data)} entrées")
-
+    print(f"Total : {len(data)} entrées\n")
 
 def get_user_value(prompt, value_type=None):
 

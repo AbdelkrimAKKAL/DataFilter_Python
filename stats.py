@@ -19,7 +19,7 @@ def calcule_stats(data):
         print(f"\n Champ : {champ}")
         print("-" * 40)
 
-        # Nombre entier ou flottant
+        # Nombre entier ou float
         if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in valeurs):
             print(f"  Type        : Numérique")
             print(f"  Minimum     : {min(valeurs)}")
@@ -78,10 +78,11 @@ def get_field_stats(data, field):
 
     stats = {"field": field}
 
-    # Numériques
+    # si colonne est entier ou float
     if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in valeurs):
         stats["type"] = "numeric"
         stats["min"] = min(valeurs)
+
         stats["max"] = max(valeurs)
         stats["mean"] = sum(valeurs) / len(valeurs)
         sorted_vals = sorted(valeurs)
@@ -89,14 +90,14 @@ def get_field_stats(data, field):
         stats["percentile_25"] = sorted_vals[len(sorted_vals) // 4]
         stats["percentile_75"] = sorted_vals[3 * len(sorted_vals) // 4]
 
-    # Booléens
+    # si bool
     elif all(isinstance(v, bool) for v in valeurs):
         stats["type"] = "boolean"
         stats["true_count"] = sum(valeurs)
         stats["false_count"] = len(valeurs) - sum(valeurs)
         stats["true_percent"] = sum(valeurs) / len(valeurs)
 
-    # Listes
+    # si listes
     elif all(isinstance(v, list) for v in valeurs):
         tailles = [len(v) for v in valeurs]
         stats["type"] = "list"
